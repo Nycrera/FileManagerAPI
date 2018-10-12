@@ -1,0 +1,32 @@
+{
+  "name": "filemanagerapi",
+  "version": "1.0.0",
+  "description": "Yet another JavaScript (Node.js) File Manager using MySQL and Express Framework",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Alperen Yurdakul",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.16.4",
+    "express-fileupload": "^1.0.0-alpha.1",
+    "mysql": "^2.16.0"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nycrera/FileManagerAPI.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Nycrera/FileManagerAPI/issues"
+  },
+  "homepage": "https://github.com/Nycrera/FileManagerAPI#readme",
+  "keywords": [
+    "js",
+    "api",
+    "filemanager",
+    "mysql",
+    "express"
+  ]
+}
