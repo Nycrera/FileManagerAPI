@@ -11,7 +11,9 @@
   "dependencies": {
     "express": "^4.16.4",
     "express-fileupload": "^1.0.0-alpha.1",
-    "mysql": "^2.16.0"
+    "mime": "^2.3.1",
+    "mysql": "^2.16.0",
+    "xxhashjs": "^0.2.2"
   },
   "devDependencies": {},
   "repository": {
