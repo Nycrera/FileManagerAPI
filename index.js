@@ -73,13 +73,13 @@ app.get('/getfiles', (req, res) => {
 
 // Simple HTTP file uploading.
 app.post('/fileupload', (req, res) => {
-    if (!res.files) {
+    if (!req.files) {
         return res.status(400).send('No files were uploaded.');
     }
     var file = req.files.upload;
     // Use the mv() method to place the file somewhere on your server
     var toDir = path.join(FILE_DIR, file.name);
-    if (fs.existsSync(toDir)) {
+    if (!fs.existsSync(toDir)) {
         file.mv(toDir, function (err) {
             if (err)
                 return res.status(500).send(err);
@@ -90,7 +90,7 @@ app.post('/fileupload', (req, res) => {
     } else {
         var indexOfDot = file.name.indexOf(".");
         var extension = file.name.substring(indexOfDot + 1, file.name.length);
-        var newFilename = file.name.substring(0, indexOfDot - 1) + '0.' + extension; // One hell of a parser -_- it adds 0 to basename of file.
+        var newFilename = file.name.substring(0, indexOfDot) + '0.' + extension; // One hell of a parser -_- it adds 0 to basename of file.
         toDir = path.join(FILE_DIR, newFilename);
         file.mv(toDir, function (err) {
             if (err)
@@ -135,7 +135,7 @@ function newFile(name, dir, mime, size) {
 function getFiles(filter, callback) {
     var db = new dbConnection();
     var j = false;
-    var queryString = 'SELECT * FROM files WHERE';
+    var queryString = 'SELECT * FROM files';
     if (filter.name) {
         queryString += ' name =' + db.escape(filter.name);
         j = true; // make j true so other checks know they should Put AND before theri appendix.
@@ -144,7 +144,7 @@ function getFiles(filter, callback) {
         if (j) {
             queryString += ' AND mime =' + db.escape(filter.mime);
         } else {
-            queryString += ' mime =' + db.escape(filter.mime);
+            queryString += ' WHERE mime =' + db.escape(filter.mime);
             j = true;
         }
     }
@@ -152,14 +152,14 @@ function getFiles(filter, callback) {
         if (j) {
             queryString += ' AND hash =' + db.escape(filter.hash);
         } else {
-            queryString += ' hash =' + db.escape(filter.hash);
+            queryString += ' WHERE hash =' + db.escape(filter.hash);
             j = true;
         }
         if (filter.hash) {
             if (j) {
                 queryString += ' AND time =' + db.escape(filter.time);
             } else {
-                queryString += ' time =' + db.escape(filter.time);
+                queryString += ' WHERE time =' + db.escape(filter.time);
                 j = true; // Not necessary but still... , in case of future uses.
             }
             // more cases can be added
